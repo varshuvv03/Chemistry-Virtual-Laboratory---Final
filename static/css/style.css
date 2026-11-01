@@ -1,0 +1,907 @@
+/* ============================================================================
+   Cheminformatics Virtual Laboratory CSS
+   SRM Institute of Science and Technology — Department of Cybersecurity
+   ============================================================================ */
+
+:root {
+  --primary-color: #2e8b57;
+  --primary-dark: #1b4d32;
+  --primary-light: #eafaf1;
+  --primary-subtle: #f0f8f4;
+  --border-color: #d1e7dd;
+  --border-subtle: #e2e8f0;
+  --text-main: #1e293b;
+  --text-muted: #555555;
+  --text-light: #7f8c8d;
+  --warning-bg: #fef9e7;
+  --warning-border: #f39c12;
+  --danger-color: #dc2626;
+  --sidebar-bg: #f8fafc;
+  --sidebar-width: 320px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-main);
+  background-color: #ffffff;
+  line-height: 1.5;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  line-height: 1.3;
+}
+
+.sidebar-subhead {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.sidebar-caption {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.sidebar-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 4px 0;
+}
+
+.sidebar-section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  background-color: #ffffff;
+  color: var(--text-main);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+/* Radio Navigation */
+.nav-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-radio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #475569;
+  transition: all 0.15s ease;
+}
+
+.nav-radio-item:hover {
+  background-color: var(--primary-subtle);
+  color: var(--primary-dark);
+}
+
+.nav-radio-item.active {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+  border-left: 4px solid var(--primary-color);
+}
+
+.nav-radio-item input[type="radio"] {
+  display: none;
+}
+
+/* Molecule Input Toggle */
+.radio-toggle-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.radio-toggle-btn {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  color: #475569;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.radio-toggle-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.code-box {
+  background: #1e293b;
+  color: #38bdf8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  padding: 8px 10px;
+  border-radius: 6px;
+  word-break: break-all;
+  margin-bottom: 6px;
+}
+
+.learning-objectives-list {
+  padding-left: 18px;
+  font-size: 0.82rem;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Main Content Area */
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #ffffff;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+  max-width: 1300px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Headers */
+.main-header {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+  padding: 10px 0;
+}
+
+.sub-header {
+  font-size: 1.15rem;
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.responsive-header-title {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.responsive-header-dept {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.responsive-header-campus {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.responsive-logo-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.logo-card {
+  background-color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(46, 139, 87, 0.08);
+  width: 175px;
+  text-align: center;
+}
+
+.logo-card img {
+  width: 165px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Alert Boxes */
+.info-box {
+  background-color: var(--primary-subtle);
+  border-left: 5px solid var(--primary-color);
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 0.92rem;
+}
+
+.success-box {
+  background-color: var(--primary-light);
+  border-left: 5px solid var(--primary-color);
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 0.92rem;
+}
+
+.warning-box {
+  background-color: var(--warning-bg);
+  border-left: 5px solid var(--warning-border);
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 0.92rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 24px 0;
+}
+
+/* Tabs */
+.tabs-container {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #64748b;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: var(--primary-color);
+}
+
+.tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.btn-secondary:hover {
+  background-color: #f1f5f9;
+}
+
+.btn-download {
+  background-color: #ffffff;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-download:hover {
+  background-color: var(--primary-light);
+}
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: 3.8fr 1.2fr;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Molecule Card */
+.mol-card {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mol-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.mol-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.mol-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 8px 0 4px;
+  color: var(--primary-dark);
+}
+
+.mol-card-code {
+  font-size: 0.75rem;
+  color: #64748b;
+  word-break: break-all;
+  font-family: monospace;
+}
+
+/* Metrics */
+.metric-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.metric-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* Tables */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.styled-table thead tr {
+  background-color: var(--primary-color);
+  color: white;
+  text-align: left;
+}
+
+.styled-table th, .styled-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f8fafc;
+}
+
+.styled-table tbody tr:hover {
+  background-color: var(--primary-subtle);
+}
+
+/* 3Dmol viewer container */
+.mol3d-viewer-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.mol3d-small-container {
+  height: 300px;
+}
+
+/* Progress bar */
+.progress-bar-bg {
+  width: 100%;
+  height: 12px;
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+/* Quiz questions */
+.quiz-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  background: #ffffff;
+}
+
+.quiz-question-text {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.quiz-option:hover {
+  background-color: #f1f5f9;
+}
+
+.quiz-option input[type="radio"] {
+  accent-color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.missed-question-box {
+  background-color: #fff1f2;
+  border-left: 4px solid #e11d48;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+}
+
+/* Footer */
+.dev-footer {
+  text-align: center;
+  padding: 24px 20px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 40px;
+  background-color: #fafbfc;
+}
+
+.dev-footer p {
+  margin: 4px 0;
+}
+
+/* Responsive Mobile View */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    max-height: none;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .main-content {
+    padding: 20px 16px;
+  }
+  .grid-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .responsive-logo-wrapper {
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .responsive-header-title {
+    font-size: 1.5rem !important;
+    text-align: center !important;
+  }
+  .responsive-header-dept {
+    font-size: 0.95rem !important;
+    text-align: center !important;
+  }
+  .responsive-header-campus {
+    font-size: 0.82rem !important;
+    text-align: center !important;
+  }
+  .grid-2, .grid-3, .grid-5, .grid-6 {
+    grid-template-columns: 1fr;
+  }
+  .mol3d-viewer-container {
+    height: 350px;
+  }
+}
+
+/* ============================================================================
+   Enhanced Molecular Library & Structural Variations Styles
+   ============================================================================ */
+.category-pills-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0 12px;
+  margin-bottom: 16px;
+}
+
+.cat-pill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.cat-pill:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.cat-pill.active {
+  background-color: var(--primary-dark);
+  color: #ffffff;
+  border-color: var(--primary-dark);
+  box-shadow: 0 2px 4px rgba(27, 77, 50, 0.2);
+}
+
+.grid-mol-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.enhanced-mol-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.enhanced-mol-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-color);
+}
+
+.mol-card-badge-row {
+  margin-bottom: 8px;
+}
+
+.mol-card-class-badge {
+  display: inline-block;
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.mol-img-wrapper {
+  background: #fafafa;
+  border-radius: 6px;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+
+.mol-img-wrapper img {
+  max-height: 160px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.mol-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin: 8px 0 3px 0;
+}
+
+.mol-card-variation {
+  font-size: 0.76rem;
+  color: #64748b;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  min-height: 38px;
+}
+
+.mol-card-code {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: #334155;
+  word-break: break-all;
+  margin-bottom: 10px;
+}
+
+.mol-card-actions {
+  margin-top: auto;
+}
+
+.mol-card-actions .btn {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  justify-content: center;
+}
+
+/* ============================================================================
+   Google Sign-In & Student Verification Portal Styles
+   ============================================================================ */
+.quiz-auth-container {
+  margin-bottom: 24px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.quiz-auth-box {
+  padding: 20px;
+  background: #ffffff;
+}
+
+.auth-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #eafaf1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.auth-fields-wrapper {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.quiz-verified-banner {
+  padding: 18px 22px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+}
+
+.quiz-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.verified-pill {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 2px 9px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ============================================================================
+   Dual Email Dispatch Status Matrix Styles
+   ============================================================================ */
+.email-dispatch-card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.email-dispatch-card.student-card {
+  border: 1.5px solid #86efac;
+}
+
+.email-dispatch-card.faculty-card {
+  border: 1.5px solid #93c5fd;
+}
+
+.dispatch-email-badge {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.dispatch-email-badge.faculty-badge {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+

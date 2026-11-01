@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cheminformatics Virtual Laboratory</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="/static/js/3Dmol-min.js"></script>
+  <script src="/static/js/chart.umd.min.js"></script>
+  <!-- Google Identity Services (GIS) for Official Student Authentication -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- SIDEBAR                                                                   -->
+  <!-- ========================================================================= -->
+  <aside class="sidebar">
+    <div>
+      <h2>🧪 Cheminformatics Virtual Lab</h2>
+      <div class="sidebar-subhead">SRMIST Tiruchirappalli Campus</div>
+      <div class="sidebar-caption">Dept. of Cybersecurity &bull; Faculty of Engineering & Technology</div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Student Details -->
+    <div>
+      <div class="sidebar-section-title">🎓 Student Details</div>
+      <div class="form-group">
+        <label for="sidebar-name">Student Name</label>
+        <input type="text" id="sidebar-name" class="form-input" value="Varshini A & Vismitha Parasa">
+      </div>
+      <div class="form-group">
+        <label for="sidebar-reg">Registration Number</label>
+        <input type="text" id="sidebar-reg" class="form-input" value="RA2611030050040 / RA2611030050047">
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Navigation -->
+    <div>
+      <div class="sidebar-section-title">📑 Navigation</div>
+      <div class="nav-radio-group">
+        <div class="nav-radio-item active" data-page="home">
+          <span>🏠</span><span>Home</span>
+        </div>
+        <div class="nav-radio-item" data-page="theory">
+          <span>📖</span><span>Theory</span>
+        </div>
+        <div class="nav-radio-item" data-page="visualization">
+          <span>🔬</span><span>Molecular Visualization</span>
+        </div>
+        <div class="nav-radio-item" data-page="properties">
+          <span>📊</span><span>Molecular Properties Report</span>
+        </div>
+        <div class="nav-radio-item" data-page="compare">
+          <span>📈</span><span>Structure–Property Analysis</span>
+        </div>
+        <div class="nav-radio-item" data-page="advanced">
+          <span>🚀</span><span>Advanced & Innovative Tools</span>
+        </div>
+        <div class="nav-radio-item" data-page="assessment">
+          <span>📝</span><span>Assessment</span>
+        </div>
+        <div class="nav-radio-item" data-page="final-report">
+          <span>📄</span><span>Final Student Report</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Molecule Input -->
+    <div>
+      <div class="sidebar-section-title">🧬 Molecule Input</div>
+      <label style="font-size: 0.82rem; font-weight: 600; color: #475569; margin-bottom: 6px; display: block;">Choose input method:</label>
+      <div class="radio-toggle-group">
+        <button type="button" class="radio-toggle-btn active" id="btn-source-example">Select Example</button>
+        <button type="button" class="radio-toggle-btn" id="btn-source-custom">Enter SMILES</button>
+      </div>
+
+      <div id="group-source-example">
+        <div class="form-group">
+          <label for="sidebar-example-select">Example Molecule (29 Available)</label>
+          <select id="sidebar-example-select" class="form-select">
+            {% if molecules_by_category %}
+              {% for cat_name, mol_list in molecules_by_category.items() %}
+              <optgroup label="{{ cat_name }}">
+                {% for m in mol_list %}
+                <option value="{{ m.smiles }}" {% if m.name == 'Aspirin' %}selected{% endif %}>{{ m.name }}</option>
+                {% endfor %}
+              </optgroup>
+              {% endfor %}
+            {% else %}
+              {% for name, smi in example_molecules.items() %}
+              <option value="{{ smi }}" {% if name == 'Aspirin' %}selected{% endif %}>{{ name }}</option>
+              {% endfor %}
+            {% endif %}
+          </select>
+        </div>
+        <div class="code-box" id="sidebar-smiles-code">CC(=O)OC1=CC=CC=C1C(=O)O</div>
+      </div>
+
+      <div id="group-source-custom" style="display: none;">
+        <div class="form-group">
+          <label for="sidebar-custom-smiles">Enter SMILES string</label>
+          <input type="text" id="sidebar-custom-smiles" class="form-input" value="CC(=O)OC1=CC=CC=C1C(=O)O">
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Learning Objectives -->
+    <div>
+      <div class="sidebar-section-title">📚 Learning Objectives</div>
+      <ul class="learning-objectives-list">
+        <li>Understand SMILES notation</li>
+        <li>Visualize molecules in 2D & 3D</li>
+        <li>Calculate molecular descriptors</li>
+        <li>Interpret drug-likeness rules</li>
+        <li>Compare molecular properties</li>
+        <li>Generate professional reports</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT                                                              -->
+  <!-- ========================================================================= -->
+  <div class="main-wrapper">
+    <main class="main-content">
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: HOME                                                            -->
+      <!-- ===================================================================== -->
+      <section id="page-home" class="page-view" style="display: block;">
+        <div class="grid-header">
+          <div>
+            <div class="responsive-header-title">🧪 Cheminformatics Virtual Laboratory</div>
+            <div class="responsive-header-dept">Department of Cybersecurity &bull; Faculty of Engineering and Technology</div>
+            <div class="responsive-header-campus">SRM Institute of Science and Technology &mdash; Tiruchirappalli Campus</div>
+          </div>
+          <div class="responsive-logo-wrapper">
+            <div class="logo-card">
+              <img src="/assets/srm_logo.png" alt="SRM Logo">
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 12px;">Welcome!</h3>
+        <p style="color: #334155; margin-bottom: 16px;">
+          This virtual laboratory provides an interactive environment for students to explore the world of <b>cheminformatics</b> &mdash; the application of computational techniques to solve chemical problems.
+        </p>
+
+        <h4 style="color: var(--primary-dark); margin-bottom: 10px;">What you can do here:</h4>
+        <ul style="padding-left: 20px; color: #475569; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+          <li>🔬 <b>Visualize molecules</b> in both 2D and interactive 3D formats</li>
+          <li>📊 <b>Calculate molecular properties</b> including LogP, TPSA, molecular weight, and more</li>
+          <li>📈 <b>Compare molecules</b> side by side with charts and tables</li>
+          <li>📝 <b>Test your knowledge</b> with a comprehensive quiz</li>
+          <li>📄 <b>Generate PDF reports</b> for submission</li>
+        </ul>
+
+        <div class="divider"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+          <div>
+            <h3 style="color: var(--primary-dark); margin: 0 0 4px 0; font-size: 1.25rem;">🧬 Molecular Library &amp; Structural Variations</h3>
+            <p style="color: #64748b; font-size: 0.88rem; margin: 0;">Explore 29 curated molecules with variations across therapeutic classes, stereocenters, polarity, and Lipinski rules.</p>
+          </div>
+          <div style="min-width: 280px;">
+            <input type="text" id="mol-library-search" class="form-input" placeholder="🔍 Search molecules by name or class..." style="padding: 8px 14px; font-size: 0.88rem;">
+          </div>
+        </div>
+
+        <!-- Category Filter Pills Bar -->
+        <div class="category-pills-bar" id="mol-category-pills">
+          <button type="button" class="cat-pill active" data-cat="all">All Variations (29)</button>
+          {% if molecules_by_category %}
+            {% for cat_name, mol_list in molecules_by_category.items() %}
+            <button type="button" class="cat-pill" data-cat="{{ cat_name }}">{{ cat_name }} ({{ mol_list | length }})</button>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Molecular Cards Library Grid -->
+        <div id="mol-cards-container" class="grid-mol-library">
+          {% if molecules_by_category %}
+            {% for cat_name, mol_list in molecules_by_category.items() %}
+              {% for m in mol_list %}
+              <div class="mol-card enhanced-mol-card" data-category="{{ cat_name }}" data-name="{{ m.name }}" data-smiles="{{ m.smiles }}">
+                <div class="mol-card-badge-row">
+                  <span class="mol-card-class-badge">{{ m.class_tag }}</span>
+                </div>
+                <div class="mol-img-wrapper">
+                  <img src="/api/mol2d?smiles={{ m.smiles | urlencode }}&w=260&h=260" alt="{{ m.name }}" loading="lazy">
+                </div>
+                <div class="mol-card-title">{{ m.name }}</div>
+                <div class="mol-card-variation">{{ m.variation }}</div>
+                <div class="mol-card-code">
+                  <code>{{ m.smiles }}</code>
+                </div>
+                <div class="mol-card-actions">
+                  <button type="button" class="btn btn-secondary btn-select-mol" data-smiles="{{ m.smiles }}" data-name="{{ m.name }}" title="Select this molecule">
+                    🔬 Select for 3D &amp; Properties
+                  </button>
+                </div>
+              </div>
+              {% endfor %}
+            {% endfor %}
+          {% else %}
+            {% for name, smi in example_molecules.items() %}
+            <div class="mol-card">
+              <img src="/api/mol2d?smiles={{ smi | urlencode }}&w=250&h=250" alt="{{ name }}">
+              <div class="mol-card-title">{{ name }}</div>
+              <div class="mol-card-code"><code>{{ smi }}</code></div>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 12px;">👩‍💻 Developed By</h3>
+        <table class="styled-table" style="max-width: 750px;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Registration Number</th>
+              <th>Email ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Varshini A</b></td>
+              <td><i>RA2611030050040</i></td>
+              <td><code>va3375@srmist.edu.in</code></td>
+            </tr>
+            <tr>
+              <td><b>Vismitha Parasa</b></td>
+              <td><i>RA2611030050047</i></td>
+              <td><code>vp8717@srmist.edu.in</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.9rem; color: #475569; margin-top: 10px;">
+          🏛️ <b>SRM Institute of Science and Technology</b> | Tiruchirappalli Campus<br>
+          Department of Cybersecurity &bull; Faculty of Engineering and Technology
+        </p>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: THEORY                                                          -->
+      <!-- ===================================================================== -->
+      <section id="page-theory" class="page-view" style="display: none;">
+        <div class="main-header">📖 Theory & Concepts</div>
+        <div class="divider"></div>
+
+        <div class="tabs-container" id="theory-tabs">
+          <button class="tab-btn active" data-pane="theory-pane-cheminf">🧪 Cheminformatics</button>
+          <button class="tab-btn" data-pane="theory-pane-smiles">🔤 SMILES Notation</button>
+          <button class="tab-btn" data-pane="theory-pane-descriptors">📊 Molecular Descriptors</button>
+          <button class="tab-btn" data-pane="theory-pane-models">🎨 3D Molecular Models</button>
+        </div>
+
+        <div id="theory-tabs-content">
+          <!-- TAB 1: Cheminformatics -->
+          <div class="tab-pane active" id="theory-pane-cheminf">
+            <h2 style="color: var(--primary-dark); margin-bottom: 14px;">What is Cheminformatics?</h2>
+            <p style="margin-bottom: 14px;">
+              <b>Cheminformatics</b> (also known as chemical informatics or chemoinformatics) is an interdisciplinary field that combines chemistry, computer science, and information technology to collect, store, analyze, and manipulate chemical data.
+            </p>
+
+            <h3 style="color: var(--primary-dark); margin: 18px 0 10px;">Key Areas:</h3>
+            <ul style="padding-left: 22px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
+              <li><b>Molecular Representation</b>: Encoding molecular structures in computer-readable formats (SMILES, InChI, MOL files)</li>
+              <li><b>Molecular Descriptors</b>: Numerical values that describe molecular properties (LogP, TPSA, MW)</li>
+              <li><b>Structure-Activity Relationships (SAR)</b>: Understanding how molecular structure affects biological activity</li>
+              <li><b>Virtual Screening</b>: Computational methods to identify promising drug candidates</li>
+              <li><b>ADMET Prediction</b>: Predicting Absorption, Distribution, Metabolism, Excretion, and Toxicity</li>
+            </ul>
+
+            <h3 style="color: var(--primary-dark); margin: 18px 0 10px;">Applications:</h3>
+            <ol style="padding-left: 22px; display: flex; flex-direction: column; gap: 8px;">
+              <li><b>Drug Discovery</b>: Identifying and optimizing lead compounds</li>
+              <li><b>Materials Science</b>: Designing new materials with desired properties</li>
+              <li><b>Environmental Chemistry</b>: Predicting environmental fate of chemicals</li>
+              <li><b>Chemical Safety</b>: Toxicity prediction and risk assessment</li>
+            </ol>
+          </div>
+
+          <!-- TAB 2: SMILES Notation -->
+          <div class="tab-pane" id="theory-pane-smiles">
+            <h2 style="color: var(--primary-dark); margin-bottom: 12px;">SMILES (Simplified Molecular Input Line Entry System)</h2>
+            <p style="margin-bottom: 16px;">
+              SMILES is a line notation for representing molecular structures as text strings. It was developed by David Weininger in the late 1980s.
+            </p>
+
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Basic Rules:</h3>
+            <table class="styled-table" style="margin-bottom: 24px;">
+              <thead>
+                <tr>
+                  <th>Symbol</th>
+                  <th>Meaning</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Uppercase letters</td><td>Atoms</td><td>C, N, O, S, P</td></tr>
+                <tr><td>Lowercase letters</td><td>Aromatic atoms</td><td>c, n, o</td></tr>
+                <tr><td><code>=</code></td><td>Double bond</td><td>C=O (formaldehyde)</td></tr>
+                <tr><td><code>#</code></td><td>Triple bond</td><td>C#N (hydrogen cyanide)</td></tr>
+                <tr><td><code>()</code></td><td>Branches</td><td>CC(=O)O (acetic acid)</td></tr>
+                <tr><td>Numbers</td><td>Ring closures</td><td>c1ccccc1 (benzene)</td></tr>
+                <tr><td><code>[]</code></td><td>Complex atoms</td><td>[Na+], [Fe+2]</td></tr>
+                <tr><td><code>/</code>, <code>\</code></td><td>Cis/trans stereochemistry</td><td>F/C=C/F</td></tr>
+                <tr><td><code>@</code>, <code>@@</code></td><td>Chirality</td><td>[C@@H]</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="color: var(--primary-dark); margin-bottom: 12px;">Examples:</h3>
+            <div class="grid-3">
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=O&w=200&h=200" alt="Water">
+                <div class="mol-card-title">Water</div>
+                <div class="mol-card-code"><code>O</code></div>
+              </div>
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=C&w=200&h=200" alt="Methane">
+                <div class="mol-card-title">Methane</div>
+                <div class="mol-card-code"><code>C</code></div>
+              </div>
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=CCO&w=200&h=200" alt="Ethanol">
+                <div class="mol-card-title">Ethanol</div>
+                <div class="mol-card-code"><code>CCO</code></div>
+              </div>
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=CC(=O)O&w=200&h=200" alt="Acetic Acid">
+                <div class="mol-card-title">Acetic Acid</div>
+                <div class="mol-card-code"><code>CC(=O)O</code></div>
+              </div>
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=c1ccccc1&w=200&h=200" alt="Benzene">
+                <div class="mol-card-title">Benzene</div>
+                <div class="mol-card-code"><code>c1ccccc1</code></div>
+              </div>
+              <div class="mol-card">
+                <img src="/api/mol2d?smiles=CC(=O)OC1=CC=CC=C1C(=O)O&w=200&h=200" alt="Aspirin">
+                <div class="mol-card-title">Aspirin</div>
+                <div class="mol-card-code"><code>CC(=O)OC1=CC=CC=C1C(=O)O</code></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Molecular Descriptors -->
+          <div class="tab-pane" id="theory-pane-descriptors">
+            <h2 style="color: var(--primary-dark); margin-bottom: 12px;">Molecular Descriptors</h2>
+            <p style="margin-bottom: 16px;">
+              Molecular descriptors are numerical values that characterize properties of molecules. They are fundamental in cheminformatics for quantitative structure-activity relationships (QSAR).
+            </p>
+
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Key Descriptors:</h3>
+            <table class="styled-table" style="margin-bottom: 24px;">
+              <thead>
+                <tr>
+                  <th>Descriptor</th>
+                  <th>Description</th>
+                  <th>Drug-like Range</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Molecular Weight (MW)</b></td><td>Sum of atomic masses</td><td>&le; 500 g/mol</td></tr>
+                <tr><td><b>LogP</b></td><td>Partition coefficient (octanol/water)</td><td>&le; 5</td></tr>
+                <tr><td><b>TPSA</b></td><td>Total Polar Surface Area</td><td>&le; 140 &Aring;&sup2;</td></tr>
+                <tr><td><b>H-Bond Donors (HBD)</b></td><td>NH and OH groups</td><td>&le; 5</td></tr>
+                <tr><td><b>H-Bond Acceptors (HBA)</b></td><td>N and O atoms</td><td>&le; 10</td></tr>
+                <tr><td><b>Rotatable Bonds</b></td><td>Molecular flexibility</td><td>&le; 10</td></tr>
+                <tr><td><b>Fraction Csp3</b></td><td>Saturation measure</td><td>Higher is more 3D-like</td></tr>
+                <tr><td><b>Molar Refractivity</b></td><td>Polarizability &amp; volume</td><td>40&ndash;130</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="color: var(--primary-dark); margin-bottom: 8px;">Lipinski's Rule of 5:</h3>
+            <p style="margin-bottom: 10px;">A molecule is likely orally active if it satisfies:</p>
+            <ul style="padding-left: 22px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px;">
+              <li>MW &le; 500</li>
+              <li>LogP &le; 5</li>
+              <li>HBD &le; 5</li>
+              <li>HBA &le; 10</li>
+            </ul>
+            <p style="font-style: italic; color: #64748b;">Violations of &ge; 2 rules suggest poor oral bioavailability.</p>
+          </div>
+
+          <!-- TAB 4: 3D Molecular Models -->
+          <div class="tab-pane" id="theory-pane-models">
+            <h2 style="color: var(--primary-dark); margin-bottom: 12px;">3D Molecular Models</h2>
+            <p style="margin-bottom: 16px;">Different visualization styles highlight different aspects of molecular structure:</p>
+
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: var(--primary-dark);">1. Ball and Stick Model</h4>
+              <p style="color: #475569;">Atoms shown as small spheres, bonds as sticks. Best for seeing both atom identity and bond connectivity. Most commonly used in chemistry education.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: var(--primary-dark);">2. Stick Model</h4>
+              <p style="color: #475569;">Only bonds are shown as cylindrical sticks. Atoms are at the intersection points. Best for viewing molecular geometry and bond angles.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <h4 style="color: var(--primary-dark);">3. Space Filling (CPK) Model</h4>
+              <p style="color: #475569;">Atoms shown at their van der Waals radii. Best for understanding molecular shape and surface. Shows how much space the molecule actually occupies.</p>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <h4 style="color: var(--primary-dark);">4. Wireframe Model</h4>
+              <p style="color: #475569;">Bonds shown as simple lines. Most minimal representation. Best for large molecules where detail would be overwhelming.</p>
+            </div>
+
+            <h3 style="color: var(--primary-dark); margin-bottom: 14px;">Interactive Examples (Aspirin 3D)</h3>
+            <div class="grid-2">
+              <div>
+                <p style="font-weight: 600; margin-bottom: 6px;">Ball and Stick</p>
+                <div class="mol3d-viewer-container mol3d-small-container" id="theory-3d-ball-stick"></div>
+              </div>
+              <div>
+                <p style="font-weight: 600; margin-bottom: 6px;">Stick</p>
+                <div class="mol3d-viewer-container mol3d-small-container" id="theory-3d-stick"></div>
+              </div>
+              <div>
+                <p style="font-weight: 600; margin-bottom: 6px;">Space Filling</p>
+                <div class="mol3d-viewer-container mol3d-small-container" id="theory-3d-space-filling"></div>
+              </div>
+              <div>
+                <p style="font-weight: 600; margin-bottom: 6px;">Wireframe</p>
+                <div class="mol3d-viewer-container mol3d-small-container" id="theory-3d-wireframe"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: MOLECULAR VISUALIZATION                                         -->
+      <!-- ===================================================================== -->
+      <section id="page-visualization" class="page-view" style="display: none;">
+        <div class="main-header">🔬 Molecular Visualization</div>
+        <div class="divider"></div>
+
+        <div id="viz-valid-banner" class="success-box">
+          ✅ Valid SMILES: <code>CC(=O)OC1=CC=CC=C1C(=O)O</code>
+        </div>
+
+        <div class="grid-2" style="margin-top: 20px;">
+          <div>
+            <h3 style="color: var(--primary-dark); margin-bottom: 12px;">2D Molecular Structure</h3>
+            <div style="text-align: center; border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; background: white;">
+              <img id="viz-2d-img" src="" alt="2D Structure" style="max-width: 100%; height: auto;">
+            </div>
+          </div>
+
+          <div>
+            <h3 style="color: var(--primary-dark); margin-bottom: 12px;">Molecular Information</h3>
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="viz-info-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 14px;">🎨 Interactive 3D Molecular Model</h3>
+        <div class="grid-header" style="margin-bottom: 16px;">
+          <div>
+            <div class="form-group" style="max-width: 300px;">
+              <label for="viz-3d-style">Select 3D Model Style</label>
+              <select id="viz-3d-style" class="form-select">
+                <option value="ball_and_stick" selected>Ball and Stick</option>
+                <option value="stick">Stick</option>
+                <option value="space_filling">Space Filling</option>
+                <option value="wireframe">Wireframe</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+              <input type="checkbox" id="viz-surface-check">
+              <label for="viz-surface-check" style="font-size: 0.9rem; cursor: pointer;">Show van der Waals Surface</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="mol3d-viewer-container" id="viz-3d-container"></div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: MOLECULAR PROPERTIES REPORT                                     -->
+      <!-- ===================================================================== -->
+      <section id="page-properties" class="page-view" style="display: none;">
+        <div class="main-header">📊 Molecular Properties Report</div>
+        <div class="divider"></div>
+
+        <div id="prop-banner" class="success-box">
+          ✅ Analyzing: <code>CC(=O)OC1=CC=CC=C1C(=O)O</code>
+        </div>
+
+        <div class="grid-header" style="margin-top: 20px;">
+          <div>
+            <h3 style="color: var(--primary-dark); margin-bottom: 12px;">2D Structure</h3>
+            <div style="text-align: center; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: white; max-width: 350px;">
+              <img id="prop-2d-img" src="" alt="2D Structure" style="max-width: 100%; height: auto;">
+            </div>
+          </div>
+          <div>
+            <h3 style="color: var(--primary-dark); margin-bottom: 12px;">Basic Information</h3>
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody id="prop-basic-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 14px;">🔑 Key Properties</h3>
+        <div class="grid-6">
+          <div class="metric-card">
+            <div class="metric-label">LogP</div>
+            <div class="metric-value" id="prop-metric-logp">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">TPSA (Å²)</div>
+            <div class="metric-value" id="prop-metric-tpsa">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">H-Bond Donors</div>
+            <div class="metric-value" id="prop-metric-hbd">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">H-Bond Acceptors</div>
+            <div class="metric-value" id="prop-metric-hba">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Rotatable Bonds</div>
+            <div class="metric-value" id="prop-metric-rb">-</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Aromatic Rings</div>
+            <div class="metric-value" id="prop-metric-ar">-</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📋 Complete Property Table (21 Descriptors)</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody id="prop-full-tbody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+
+        <div style="margin: 16px 0;">
+          <button type="button" class="btn btn-download" id="prop-csv-btn">📥 Download Properties as CSV</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📄 Generate Molecular PDF Report</h3>
+        <button type="button" class="btn btn-primary" id="prop-pdf-btn">📄 Generate Molecular PDF Report</button>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 14px;">🎨 3D Molecular Model</h3>
+        <div style="display: flex; gap: 20px; align-items: flex-end; margin-bottom: 16px;">
+          <div class="form-group" style="max-width: 250px; margin-bottom: 0;">
+            <label for="prop-3d-style">3D Model Style</label>
+            <select id="prop-3d-style" class="form-select">
+              <option value="ball_and_stick" selected>Ball and Stick</option>
+              <option value="stick">Stick</option>
+              <option value="space_filling">Space Filling</option>
+              <option value="wireframe">Wireframe</option>
+            </select>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <input type="checkbox" id="prop-surface-check">
+            <label for="prop-surface-check" style="font-size: 0.9rem; cursor: pointer;">Show van der Waals Surface</label>
+          </div>
+        </div>
+
+        <div class="mol3d-viewer-container" id="prop-3d-container"></div>
+
+        <div style="margin-top: 16px;">
+          <button type="button" class="btn btn-secondary" id="prop-gen-static-btn">📄 Generate 3D Molecular Model (Static Image)</button>
+          <div id="prop-static-img-container" style="display: none;"></div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: STRUCTURE-PROPERTY ANALYSIS                                     -->
+      <!-- ===================================================================== -->
+      <section id="page-compare" class="page-view" style="display: none;">
+        <div class="main-header">📈 Structure–Property Analysis</div>
+        <div class="divider"></div>
+
+        <p style="color: #475569; margin-bottom: 8px;">Enter molecules to compare (one per line, as <b>Name,SMILES</b>):</p>
+        <pre class="code-box" style="margin-bottom: 14px;">Aspirin,CC(=O)OC1=CC=CC=C1C(=O)O
+Caffeine,CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+Paracetamol,CC(=O)NC1=CC=C(O)C=C1</pre>
+
+        <div style="margin-bottom: 12px;">
+          <label style="font-size: 0.85rem; font-weight: 600; color: #1e293b; display: block; margin-bottom: 6px;">⚡ Quick Load Molecular Variation Sets:</label>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="nsaids" style="padding: 6px 12px; font-size: 0.82rem;">⚡ NSAIDs Family (5)</button>
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="cns" style="padding: 6px 12px; font-size: 0.82rem;">⚡ Neurotransmitters &amp; CNS (5)</button>
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="antibiotics" style="padding: 6px 12px; font-size: 0.82rem;">⚡ Antibiotics (4)</button>
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="cardio" style="padding: 6px 12px; font-size: 0.82rem;">⚡ Cardiovascular (4)</button>
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="lipinski" style="padding: 6px 12px; font-size: 0.82rem;">⚡ Lipinski Outliers vs Compliant</button>
+            <button type="button" class="btn btn-secondary btn-preset-load" data-preset="diverse" style="padding: 6px 12px; font-size: 0.82rem;">⚡ Cross-Class Diverse Set (8)</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="compare-input">Enter molecules (Name,SMILES per line):</label>
+          <textarea id="compare-input" class="form-textarea" rows="6">Aspirin,CC(=O)OC1=CC=CC=C1C(=O)O
+Caffeine,CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+Paracetamol,CC(=O)NC1=CC=C(O)C=C1
+Ibuprofen,CC(C)CC1=CC=C(C=C1)C(C)C(=O)O</textarea>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="compare-analyze-btn">🔍 Analyze & Compare</button>
+
+        <div id="compare-invalid-box" class="warning-box" style="display: none; margin-top: 14px;"></div>
+
+        <div id="compare-results-area" style="display: none; margin-top: 24px;">
+          <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📋 Comparison Table</h3>
+          <div style="overflow-x: auto;">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>SMILES</th>
+                  <th>MW (g/mol)</th>
+                  <th>LogP</th>
+                  <th>TPSA (Å²)</th>
+                  <th>HBD</th>
+                  <th>HBA</th>
+                  <th>Rotatable Bonds</th>
+                  <th>Aromatic Rings</th>
+                  <th>Heavy Atoms</th>
+                  <th>Fraction Csp3</th>
+                  <th>Molar Refractivity</th>
+                  <th>Lipinski Violations</th>
+                </tr>
+              </thead>
+              <tbody id="compare-table-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin: 16px 0;">
+            <button type="button" class="btn btn-download" id="compare-csv-btn">📥 Download Comparison CSV</button>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📊 Property Comparison Chart</h3>
+          <div class="form-group" style="max-width: 320px;">
+            <label for="compare-chart-prop">Select property to chart:</label>
+            <select id="compare-chart-prop" class="form-select">
+              <option value="MW (g/mol)" selected>MW (g/mol)</option>
+              <option value="LogP">LogP</option>
+              <option value="TPSA (Å²)">TPSA (Å²)</option>
+              <option value="HBD">HBD</option>
+              <option value="HBA">HBA</option>
+              <option value="Rotatable Bonds">Rotatable Bonds</option>
+              <option value="Molar Refractivity">Molar Refractivity</option>
+            </select>
+          </div>
+
+          <div style="height: 350px; margin-bottom: 24px; position: relative;">
+            <canvas id="compare-bar-chart"></canvas>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📈 Molecular Weight vs LogP</h3>
+          <div style="height: 350px; margin-bottom: 24px; position: relative;">
+            <canvas id="compare-scatter-chart"></canvas>
+          </div>
+
+          <div class="divider"></div>
+
+          <h3 style="color: var(--primary-dark); margin-bottom: 12px;">🔍 Lipinski Rule of 5 Violations</h3>
+          <div id="compare-lipinski-cards">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: ADVANCED & INNOVATIVE TOOLS                                     -->
+      <!-- ===================================================================== -->
+      <section id="page-advanced" class="page-view" style="display: none;">
+        <div class="main-header">🚀 Advanced & Innovative Virtual Lab Tools</div>
+        <div class="sub-header">Department of Cybersecurity &bull; Bridging Chemical Informatics & Cyber Systems</div>
+        <div class="divider"></div>
+
+        <p style="color: #475569; margin-bottom: 18px;">
+          Welcome to the <b>cutting-edge extension</b> of the Cheminformatics Virtual Laboratory. Developed under the <b>Department of Cybersecurity (Faculty of Engineering and Technology)</b>, these tools combine molecular data science, cryptographic verification, scaffold intelligence, and quantitative drug-likeness.
+        </p>
+
+        <div class="tabs-container" id="advanced-tabs">
+          <button class="tab-btn active" data-pane="adv-pane-hashes">🔐 Cryptographic Chemical Hashes (Cybersecurity)</button>
+          <button class="tab-btn" data-pane="adv-pane-qed">🎯 QED Drug-Likeness & Bioavailability Score</button>
+          <button class="tab-btn" data-pane="adv-pane-scaffold">🧬 Murcko Core Scaffold Extractor</button>
+          <button class="tab-btn" data-pane="adv-pane-similarity">⚡ Molecular Similarity Engine (Tanimoto)</button>
+        </div>
+
+        <div id="advanced-tabs-content">
+          <!-- TAB 1: Hashes -->
+          <div class="tab-pane active" id="adv-pane-hashes">
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">🔐 Cryptographic Hashing for Chemical Data Integrity</h3>
+            <div class="info-box">
+              💡 <b>Cybersecurity in Cheminformatics</b>: How do we ensure proprietary drug leads and chemical datasets have not been tampered with or modified in databases? By generating cryptographic digest signatures!
+            </div>
+
+            <p style="margin: 12px 0;"><b>Target Molecule:</b> <code id="adv-hash-target"></code></p>
+            <p style="margin: 12px 0;"><b>Canonical SMILES (Standardized):</b> <code id="adv-hash-canonical"></code></p>
+
+            <div class="grid-2" style="margin-top: 18px;">
+              <div>
+                <h4 style="color: var(--primary-dark); margin-bottom: 8px;">🛡️ Tamper-Proof Cryptographic Hashes</h4>
+                <div class="code-box" style="white-space: pre-wrap; font-size: 0.85rem;">SHA-256 Digest:
+<span id="adv-hash-sha256"></span>
+
+SHA3-256 Digest:
+<span id="adv-hash-sha3"></span>
+
+MD5 Checksum:
+<span id="adv-hash-md5"></span></div>
+              </div>
+              <div>
+                <h4 style="color: var(--primary-dark); margin-bottom: 8px;">🏷️ IUPAC InChI & InChIKey Identifier</h4>
+                <div class="code-box" style="white-space: pre-wrap; font-size: 0.85rem;">InChIKey (27-char fixed length):
+<span id="adv-hash-inchikey"></span>
+
+Full InChI String:
+<span id="adv-hash-inchi"></span></div>
+              </div>
+            </div>
+
+            <div class="success-box" style="margin-top: 16px;">
+              ✅ <b>Integrity Verification</b>: Any minor substitution (e.g. replacing -OH with -F) changes the 256-bit hash entirely (Avalanche Effect).
+            </div>
+          </div>
+
+          <!-- TAB 2: QED -->
+          <div class="tab-pane" id="adv-pane-qed">
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">🎯 Quantitative Estimate of Drug-Likeness (QED Score)</h3>
+            <div class="info-box">
+              💡 <b>Beyond Lipinski's Rule of 5</b>: While Lipinski uses rigid cutoffs, the <b>QED (Bickerton et al., Nature Chemistry 2012)</b> integrates 8 physicochemical descriptors into a single continuous desirability metric from <b>0.0 (least drug-like)</b> to <b>1.0 (most drug-like)</b>.
+            </div>
+
+            <div class="grid-2" style="margin-top: 20px;">
+              <div>
+                <div class="metric-card" style="margin-bottom: 14px;">
+                  <div class="metric-label">Overall QED Score</div>
+                  <div class="metric-value" id="adv-qed-score">-</div>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill" id="adv-qed-progress" style="width: 0%;"></div>
+                </div>
+                <div id="adv-qed-eval" class="success-box" style="margin-top: 14px;">
+                  <!-- Dynamically populated -->
+                </div>
+              </div>
+              <div>
+                <h4 style="color: var(--primary-dark); margin-bottom: 8px;">Desirability Parameters:</h4>
+                <table class="styled-table">
+                  <thead>
+                    <tr>
+                      <th>Descriptor</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adv-qed-tbody">
+                    <!-- Dynamically populated -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Scaffold -->
+          <div class="tab-pane" id="adv-pane-scaffold">
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">🧬 Bemis-Murcko Scaffold Deconstruction</h3>
+            <div class="info-box">
+              💡 <b>Scaffold Analysis</b>: Extracts the core molecular ring system and linker assembly by stripping away all non-cyclic side chains. Essential for medicinal chemistry SAR (Structure-Activity Relationships) and patent analysis.
+            </div>
+
+            <div class="grid-2" style="margin-top: 20px;">
+              <div style="text-align: center;">
+                <h4 style="color: var(--primary-dark); margin-bottom: 8px;">Original Compound Structure</h4>
+                <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: white;">
+                  <img id="adv-scaff-orig-img" src="" alt="Original Structure" style="max-width: 100%; height: auto;">
+                </div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-top: 6px;" id="adv-scaff-orig-smi"></div>
+              </div>
+              <div style="text-align: center;">
+                <h4 style="color: var(--primary-dark); margin-bottom: 8px;">Extracted Bemis-Murcko Scaffold</h4>
+                <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; background: white;">
+                  <img id="adv-scaff-img" src="" alt="Murcko Scaffold" style="max-width: 100%; height: auto;">
+                </div>
+                <div id="adv-scaff-banner" class="success-box" style="margin-top: 10px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: Similarity -->
+          <div class="tab-pane" id="adv-pane-similarity">
+            <h3 style="color: var(--primary-dark); margin-bottom: 10px;">⚡ Molecular Fingerprint Similarity Calculator (Tanimoto Coefficient)</h3>
+            <div class="info-box">
+              💡 <b>Substructure & Similarity Search</b>: Measures structural similarity between two compounds based on topological Daylight-style Morgan/RDKit bit fingerprints. Score ranges from <b>0.0 (completely dissimilar)</b> to <b>1.0 (identical)</b>.
+            </div>
+
+            <div class="grid-2" style="margin-top: 16px;">
+              <div class="form-group">
+                <label for="tan-smi-a">Molecule A (SMILES):</label>
+                <input type="text" id="tan-smi-a" class="form-input" value="CC(=O)OC1=CC=CC=C1C(=O)O">
+              </div>
+              <div class="form-group">
+                <label for="tan-smi-b">Molecule B (SMILES):</label>
+                <input type="text" id="tan-smi-b" class="form-input" value="CC(=O)NC1=CC=C(O)C=C1">
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="tan-calc-btn">⚡ Calculate Similarity</button>
+
+            <div class="divider"></div>
+
+            <div class="grid-3">
+              <div class="metric-card">
+                <div class="metric-label">Tanimoto Coefficient</div>
+                <div class="metric-value" id="tan-metric-tanimoto">-</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Dice Similarity</div>
+                <div class="metric-value" id="tan-metric-dice">-</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Cosine Similarity</div>
+                <div class="metric-value" id="tan-metric-cosine">-</div>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-top: 20px;">
+              <div style="text-align: center;">
+                <p style="font-weight: 600; margin-bottom: 6px;">Molecule A</p>
+                <img id="tan-img-a" src="" alt="Molecule A" style="border: 1px solid var(--border-color); border-radius: 6px; max-width: 100%;">
+              </div>
+              <div style="text-align: center;">
+                <p style="font-weight: 600; margin-bottom: 6px;">Molecule B</p>
+                <img id="tan-img-b" src="" alt="Molecule B" style="border: 1px solid var(--border-color); border-radius: 6px; max-width: 100%;">
+              </div>
+            </div>
+
+            <div id="tan-interpretation" class="success-box" style="margin-top: 18px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: ASSESSMENT                                                      -->
+      <!-- ===================================================================== -->
+      <section id="page-assessment" class="page-view" style="display: none;">
+        <div class="main-header">📝 Assessment Quiz &amp; Examination Portal</div>
+        <div class="divider"></div>
+
+        <!-- Google Sign-In & Student Verification Portal -->
+        <div id="quiz-auth-card" class="quiz-auth-container">
+          <!-- Unverified State: Authentication Prompt -->
+          <div id="quiz-auth-unverified" class="quiz-auth-box">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="auth-icon-circle">🔐</div>
+                <div>
+                  <h3 style="margin: 0; font-size: 1.15rem; color: #1e293b;">Google Account Verification &amp; Student Registration</h3>
+                  <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: #64748b;">
+                    Sign in with your Google account and enter your Registration Number to begin the assessment.
+                  </p>
+                </div>
+              </div>
+              <div id="g_id_signin_mount" style="min-height: 40px;"></div>
+            </div>
+
+            <div class="auth-fields-wrapper">
+              <div class="grid-3" style="gap: 12px;">
+                <div class="form-group" style="margin: 0;">
+                  <label for="quiz-input-name" style="font-size: 0.82rem; font-weight: 600; color: #334155;">Student Full Name <span style="color:#dc2626;">*</span></label>
+                  <input type="text" id="quiz-input-name" class="form-input" placeholder="e.g. Varshini A" value="Varshini A" required>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                  <label for="quiz-input-reg" style="font-size: 0.82rem; font-weight: 600; color: #334155;">Registration Number <span style="color:#dc2626;">*</span></label>
+                  <input type="text" id="quiz-input-reg" class="form-input" placeholder="e.g. RA2611030050040" value="RA2611030050040" required>
+                </div>
+                <div class="form-group" style="margin: 0;">
+                  <label for="quiz-input-email" style="font-size: 0.82rem; font-weight: 600; color: #334155;">Google Account Email <span style="color:#dc2626;">*</span></label>
+                  <input type="email" id="quiz-input-email" class="form-input" placeholder="e.g. va3375@srmist.edu.in" value="va3375@srmist.edu.in" required>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; flex-wrap: wrap; gap: 10px;">
+                <div style="font-size: 0.82rem; color: #475569;">
+                  📧 <i>Result scorecard will be dispatched to your email. Institutional exam audit log will be filed to <b>Varshini A (<code>va3375@srmist.edu.in</code>)</b>.</i>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button type="button" class="btn btn-secondary" id="quiz-btn-fill-varshini" style="padding: 6px 12px; font-size: 0.82rem;">
+                    ⚡ Lead Coordinator (Varshini A)
+                  </button>
+                  <button type="button" class="btn btn-primary" id="quiz-btn-verify-signin" style="padding: 8px 18px; font-size: 0.88rem;">
+                    ✅ Authenticate &amp; Unlock Quiz
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verified State: Student Profile Banner -->
+          <div id="quiz-auth-verified" class="quiz-verified-banner" style="display: none;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div id="quiz-avatar-circle" class="quiz-avatar">V</div>
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h3 id="quiz-display-name" style="margin: 0; font-size: 1.1rem; color: #166534; font-weight: 700;">Varshini A</h3>
+                    <span class="verified-pill">✅ Google Verified Student</span>
+                  </div>
+                  <div style="margin-top: 4px; font-size: 0.85rem; color: #374151;">
+                    <b>Reg No:</b> <code id="quiz-display-reg" style="background: #e2e8f0; padding: 1px 6px; border-radius: 4px;">RA2611030050040</code> &bull; 
+                    <b>Google Email:</b> <span id="quiz-display-email" style="color: #1b4d32; font-weight: 600;">va3375@srmist.edu.in</span>
+                  </div>
+                  <div style="margin-top: 3px; font-size: 0.78rem; color: #64748b;">
+                    Scorecard recipient: <span id="quiz-display-recipient" style="color: #15803d; font-weight: 500;">va3375@srmist.edu.in</span> &bull; Audit log archive: <b>Varshini A (va3375@srmist.edu.in)</b>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <button type="button" class="btn btn-secondary" id="quiz-btn-switch-account" style="padding: 6px 14px; font-size: 0.82rem;">
+                  🔄 Change Student Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p style="color: #475569; margin-bottom: 18px;">
+          Test your understanding of cheminformatics concepts!<br>
+          &bull; <b>Total Questions:</b> {{ quiz_questions | length }}<br>
+          &bull; <b>Topics:</b> SMILES notation, molecular descriptors, Lipinski's rules, 3D models, RDKit
+        </p>
+
+        <form id="quiz-form" onsubmit="return false;">
+          {% for q in quiz_questions %}
+          {% set q_idx = loop.index0 %}
+          <div class="quiz-card">
+            <div class="quiz-question-text">Q{{ loop.index }}. {{ q.q }}</div>
+            <div>
+              {% for opt in q.options %}
+              <label class="quiz-option">
+                <input type="radio" name="quiz_q_{{ q_idx }}" value="{{ loop.index0 }}">
+                <span>{{ opt }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+
+          <div style="display: flex; gap: 12px; align-items: center; margin-top: 20px;">
+            <button type="button" class="btn btn-primary" id="quiz-submit-btn" style="font-size: 1rem; padding: 12px 28px;">
+              📝 Submit Quiz &amp; Dispatch Results
+            </button>
+            <span id="quiz-submit-note" style="font-size: 0.85rem; color: #64748b;">
+              Requires Google verified account &bull; Official scorecard will be emailed immediately
+            </span>
+          </div>
+        </form>
+
+        <!-- Quiz Results & Email Delivery Status Area -->
+        <div id="quiz-results-area" style="display: none; margin-top: 30px;">
+          <h2 style="color: var(--primary-dark); margin-bottom: 8px;">📊 Assessment Results &amp; Submission Confirmation</h2>
+          <h3 style="color: #1e293b; margin-bottom: 12px;">Score: <span id="quiz-score-text">-</span></h3>
+
+          <div class="progress-bar-bg" style="height: 18px; border-radius: 9px;">
+            <div class="progress-bar-fill" id="quiz-progress-bar" style="width: 0%; border-radius: 9px;"></div>
+          </div>
+
+          <div id="quiz-feedback-box" class="success-box" style="margin: 16px 0;"></div>
+
+          <!-- Dual Email Dispatch Status Matrix -->
+          <div id="quiz-email-status-container" style="margin: 20px 0;">
+            <div class="grid-2" style="gap: 16px;">
+              <!-- Student Delivery Card -->
+              <div class="email-dispatch-card student-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <span style="font-size: 1.4rem;">📩</span>
+                  <h4 style="margin: 0; color: #166534; font-size: 1rem;">Official Result Sent to Student</h4>
+                </div>
+                <p style="margin: 0 0 8px 0; font-size: 0.86rem; color: #374151;">
+                  Personal assessment scorecard and achievement summary delivered to:
+                </p>
+                <div class="dispatch-email-badge" id="quiz-student-email-result">-</div>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: #15803d; font-weight: 600;">
+                  ✅ Status: Dispatched Successfully
+                </div>
+              </div>
+
+              <!-- Varshini A Institutional Archive Card -->
+              <div class="email-dispatch-card faculty-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                  <span style="font-size: 1.4rem;">📋</span>
+                  <h4 style="margin: 0; color: #1e40af; font-size: 1rem;">Examination Audit Log Sent to Coordinator</h4>
+                </div>
+                <p style="margin: 0 0 8px 0; font-size: 0.86rem; color: #374151;">
+                  Complete 24-question candidate response audit matrix delivered to:
+                </p>
+                <div class="dispatch-email-badge faculty-badge">Varshini A (va3375@srmist.edu.in)</div>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: #2563eb; font-weight: 600;">
+                  ✅ Status: Institutional Record Archived &amp; Logged
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post-submission Action Buttons -->
+          <div style="display: flex; gap: 12px; margin: 22px 0; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" id="quiz-btn-download-cert" style="display: flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 0.95rem;">
+              <span>🏆 Download Official PDF Certificate &amp; Scorecard</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="quiz-btn-retake" style="padding: 10px 18px; font-size: 0.95rem;">
+              🔄 Retake Assessment
+            </button>
+          </div>
+
+          <div id="quiz-missed-header" style="display: none; margin-top: 24px;">
+            <h3 style="color: #e11d48; margin-bottom: 12px;">❌ Questions Requiring Review:</h3>
+            <div id="quiz-missed-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================== -->
+      <!-- PAGE: FINAL STUDENT REPORT                                            -->
+      <!-- ===================================================================== -->
+      <section id="page-final-report" class="page-view" style="display: none;">
+        <div class="main-header">📄 Final Student Molecular Analysis Report</div>
+        <div class="divider"></div>
+
+        <p style="color: #475569; margin-bottom: 20px;">
+          Generate a comprehensive <b>multi-molecule</b> PDF report for submission. Enter your details and as many SMILES as you need.
+        </p>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="final-name">Student Name</label>
+            <input type="text" id="final-name" class="form-input" value="Varshini A & Vismitha Parasa">
+          </div>
+          <div class="form-group">
+            <label for="final-reg">Registration Number</label>
+            <input type="text" id="final-reg" class="form-input" value="RA2611030050040 / RA2611030050047">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="final-smiles">Enter SMILES (7 Molecules for 10-Page Comprehensive Report):</label>
+          <textarea id="final-smiles" class="form-textarea" rows="8">Aspirin,CC(=O)OC1=CC=CC=C1C(=O)O
+Caffeine,CN1C=NC2=C1C(=O)N(C(=O)N2C)C
+Paracetamol,CC(=O)NC1=CC=C(O)C=C1
+Ibuprofen,CC(C)CC1=CC=C(C=C1)C(C)C(=O)O
+Glucose,C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O
+Ethanol,CCO
+Benzene,c1ccccc1</textarea>
+        </div>
+
+        <div class="form-group" style="max-width: 300px; margin-top: 14px;">
+          <label for="final-3d-style">3D Model Style for PDF</label>
+          <select id="final-3d-style" class="form-select">
+            <option value="ball_and_stick" selected>Ball and Stick</option>
+            <option value="stick">Stick</option>
+            <option value="space_filling">Space Filling</option>
+            <option value="wireframe">Wireframe</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <button type="button" class="btn btn-primary" id="final-pdf-btn" style="font-size: 1rem; padding: 12px 24px;">📄 Generate Combined PDF Report</button>
+        </div>
+
+        <div id="final-pdf-status" class="info-box" style="display: none; margin-top: 20px;"></div>
+
+        <div class="divider"></div>
+
+        <h3 style="color: var(--primary-dark); margin-bottom: 12px;">📋 Default Cohort Included:</h3>
+        <ul style="padding-left: 20px; color: #475569; display: flex; flex-direction: column; gap: 6px;">
+          <li><b>1.</b> <code>CC(=O)OC1=CC=CC=C1C(=O)O</code> &mdash; C9H8O4 (MW: 180.159 g/mol)</li>
+          <li><b>2.</b> <code>CN1C=NC2=C1C(=O)N(C(=O)N2C)C</code> &mdash; C8H10N4O2 (MW: 194.194 g/mol)</li>
+          <li><b>3.</b> <code>CC(=O)NC1=CC=C(O)C=C1</code> &mdash; C8H9NO2 (MW: 151.165 g/mol)</li>
+          <li><b>4.</b> <code>CC(C)CC1=CC=C(C=C1)C(C)C(=O)O</code> &mdash; C13H18O2 (MW: 206.285 g/mol)</li>
+          <li><b>5.</b> <code>C([C@@H]1[C@H]([C@@H]([C@H](C(O1)O)O)O)O)O</code> &mdash; C6H12O6 (MW: 180.156 g/mol)</li>
+          <li><b>6.</b> <code>CCO</code> &mdash; C2H6O (MW: 46.069 g/mol)</li>
+          <li><b>7.</b> <code>c1ccccc1</code> &mdash; C6H6 (MW: 78.114 g/mol)</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <!-- ======================================================================= -->
+    <!-- GLOBAL FOOTER                                                           -->
+    <!-- ======================================================================= -->
+    <footer class="dev-footer">
+      <p><b>Cheminformatics Virtual Laboratory</b> | Developed by <b>Varshini A</b> (RA2611030050040) & <b>Vismitha Parasa</b> (RA2611030050047)</p>
+      <p>SRM Institute of Science and Technology, Tiruchirappalli Campus | Department of Cybersecurity | Faculty of Engineering and Technology</p>
+      <p>Built with Flask &bull; RDKit &bull; 3Dmol.js &bull; ReportLab &bull; Matplotlib</p>
+    </footer>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

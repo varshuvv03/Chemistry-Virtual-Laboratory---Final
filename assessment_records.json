@@ -1,0 +1,192 @@
+[
+  {
+    "submission_id": "SRMIST-CHEM-1793554270",
+    "timestamp": "2026-11-01T23:01:10.583945",
+    "formatted_date": "November 01, 2026 at 11:01 PM",
+    "student_name": "Varshini A",
+    "reg_no": "RA2611030050040",
+    "student_email": "va3375@srmist.edu.in",
+    "score": 5,
+    "total": 25,
+    "percentage": 20.0,
+    "grade": "Needs Improvement",
+    "wrong_count": 20,
+    "details": [
+      {
+        "index": 1,
+        "question": "What does SMILES stand for?",
+        "user_answer": "Simplified Molecular Input Line Entry System",
+        "correct_answer": "Simplified Molecular Input Line Entry System",
+        "is_correct": true
+      },
+      {
+        "index": 2,
+        "question": "Which Python library is primarily used for cheminformatics tasks like parsing SMILES and calculating molecular descriptors?",
+        "user_answer": "RDKit",
+        "correct_answer": "RDKit",
+        "is_correct": true
+      },
+      {
+        "index": 3,
+        "question": "What is the SMILES notation for benzene?",
+        "user_answer": "c1ccccc1",
+        "correct_answer": "c1ccccc1",
+        "is_correct": true
+      },
+      {
+        "index": 4,
+        "question": "LogP is a measure of:",
+        "user_answer": "Partition coefficient (lipophilicity)",
+        "correct_answer": "Partition coefficient (lipophilicity)",
+        "is_correct": true
+      },
+      {
+        "index": 5,
+        "question": "According to Lipinski's Rule of 5, the molecular weight should be:",
+        "user_answer": "\u2264 500",
+        "correct_answer": "\u2264 500",
+        "is_correct": true
+      },
+      {
+        "index": 6,
+        "question": "TPSA stands for:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Total Polar Surface Area",
+        "is_correct": false
+      },
+      {
+        "index": 7,
+        "question": "Which 3D model represents atoms as spheres filling their van der Waals radii?",
+        "user_answer": "(No answer)",
+        "correct_answer": "Space Filling",
+        "is_correct": false
+      },
+      {
+        "index": 8,
+        "question": "A molecule with LogP < 0 is considered:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Hydrophilic",
+        "is_correct": false
+      },
+      {
+        "index": 9,
+        "question": "The number of hydrogen bond donors allowed by Lipinski's Rule is:",
+        "user_answer": "(No answer)",
+        "correct_answer": "\u2264 5",
+        "is_correct": false
+      },
+      {
+        "index": 10,
+        "question": "Which of these is NOT a molecular descriptor?",
+        "user_answer": "(No answer)",
+        "correct_answer": "HTML",
+        "is_correct": false
+      },
+      {
+        "index": 11,
+        "question": "In SMILES notation, '=' represents:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Double bond",
+        "is_correct": false
+      },
+      {
+        "index": 12,
+        "question": "What is the purpose of the ETKDG method in RDKit?",
+        "user_answer": "(No answer)",
+        "correct_answer": "Generate 3D conformer coordinates",
+        "is_correct": false
+      },
+      {
+        "index": 13,
+        "question": "In SMILES, '#' represents:",
+        "user_answer": "(No answer)",
+        "correct_answer": "A triple bond",
+        "is_correct": false
+      },
+      {
+        "index": 14,
+        "question": "Which descriptor measures the total surface area of polar atoms in a molecule?",
+        "user_answer": "(No answer)",
+        "correct_answer": "TPSA",
+        "is_correct": false
+      },
+      {
+        "index": 15,
+        "question": "The SMILES notation for ethanol is:",
+        "user_answer": "(No answer)",
+        "correct_answer": "CCO",
+        "is_correct": false
+      },
+      {
+        "index": 16,
+        "question": "Lipinski's Rule of 5 predicts:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Oral bioavailability / drug-likeness",
+        "is_correct": false
+      },
+      {
+        "index": 17,
+        "question": "In a Ball-and-Stick model:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Atoms are spheres connected by sticks representing bonds",
+        "is_correct": false
+      },
+      {
+        "index": 18,
+        "question": "A sigma (\u03c3) bond is formed by:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Head-on overlap of orbitals",
+        "is_correct": false
+      },
+      {
+        "index": 19,
+        "question": "Which library is used for interactive 3D molecular visualization in the browser?",
+        "user_answer": "(No answer)",
+        "correct_answer": "py3Dmol",
+        "is_correct": false
+      },
+      {
+        "index": 20,
+        "question": "How many hydrogen bond acceptors does Lipinski's Rule allow?",
+        "user_answer": "(No answer)",
+        "correct_answer": "\u2264 10",
+        "is_correct": false
+      },
+      {
+        "index": 21,
+        "question": "Molar Refractivity is related to:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Molecular polarizability and volume",
+        "is_correct": false
+      },
+      {
+        "index": 22,
+        "question": "In SMILES, branches are denoted by:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Parentheses ()",
+        "is_correct": false
+      },
+      {
+        "index": 23,
+        "question": "What does a high TPSA value (>140 \u00c5\u00b2) suggest about a molecule?",
+        "user_answer": "(No answer)",
+        "correct_answer": "Poor cell membrane permeability",
+        "is_correct": false
+      },
+      {
+        "index": 24,
+        "question": "The Fraction Csp3 descriptor indicates:",
+        "user_answer": "(No answer)",
+        "correct_answer": "The fraction of carbon atoms that are sp3 hybridized",
+        "is_correct": false
+      },
+      {
+        "index": 25,
+        "question": "MMFF in RDKit stands for:",
+        "user_answer": "(No answer)",
+        "correct_answer": "Merck Molecular Force Field",
+        "is_correct": false
+      }
+    ]
+  }
+]
